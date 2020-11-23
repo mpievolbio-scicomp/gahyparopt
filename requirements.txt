@@ -1,8 +1,6 @@
 pandas
+ipywidgets
 numpy
-sklearn
-tensorflow
-tensorflow-gpu
-gym
+tensorflow==2.2
 keras
 matplotlib
