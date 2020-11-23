@@ -9,8 +9,14 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, InputLayer
 from keras import backend as K
 from keras.utils import to_categorical
+import random
+import string
 
-
+chars = string.ascii_lowercase
+def random_id():
+    return ''.join(random.choice(chars) for x in range(12))
+ 
+    
 class LayerLayout:
 
     """
@@ -27,7 +33,7 @@ class Chromosome:
     Chromosome Class
     """
 
-    def __init__(self, layer_layout, optimizer, specie):
+    def __init__(self, layer_layout, optimizer, specie, parent_a=None, parent_b=None, id=None):
         self.layer_layout = layer_layout
         self.optimizer = optimizer
 #         self.result_worst = None
@@ -37,7 +43,64 @@ class Chromosome:
         self.loss = None
         self.accuracy = None
         self.specie = specie
-        self.ml_model = None
+        if id is None:
+            self.id = random_id()
+        else:
+            self.id = id
+                
+        self.parent_a = parent_a
+        self.parent_b = parent_b
+        
+        # Define Neural Network Topology
+        m_model = Sequential()
+
+        # Define Input Layer
+        # m_model.add(InputLayer(input_shape=(4,)))
+        m_model.add(InputLayer(input_shape=(28*28,))) # corresponding to number of pixels. 
+
+        # Add Hidden Layers
+        for layer in self.layer_layout:
+
+            if layer.layer_type == 'dense':
+                m_model.add(
+                    Dense(
+                        layer.neurons,
+                        activation=layer.activation
+                    )
+                )
+            elif layer.layer_type == 'dropout':
+                m_model.add(
+                    Dropout(rate=layer.rate)
+                )
+
+        # Define Output Layer
+        # m_model.add(Dense(2, activation='sigmoid'))
+        m_model.add(Dense(10, activation='softmax'))
+
+        # Compile Neural Network
+        m_model.compile(optimizer=self.optimizer,
+                        loss='categorical_crossentropy',
+                        metrics=['accuracy'],
+                       )
+        
+        self.ml_model = m_model
+    
+    @property
+    def loss(self):
+        return self.__loss
+    @loss.setter
+    def loss(self, val):
+        self.__loss = val
+        
+    @property
+    def accuracy(self):
+        return self.__accuracy
+    @accuracy.setter
+    def accuracy(self, val):
+        self.__accuracy = val
+ 
+    def __str__(self):
+        return str(self.__dict__)
 
     def safe_get_hidden_layer_node(self, index=0):
         """
@@ -88,52 +151,20 @@ class GADriver(object):
         # Unpack data.
         x_train, y_train, x_val, y_val = data.values()
 
-        # Define Neural Network Topology
-        m_model = Sequential()
-
-        # Define Input Layer
-        # m_model.add(InputLayer(input_shape=(4,)))
-        m_model.add(InputLayer(input_shape=(28*28,))) # corresponding to number of pixels. 
-
-        # Add Hidden Layers
-        for layer in chromosome.layer_layout:
-
-            if layer.layer_type == 'dense':
-                m_model.add(
-                    Dense(
-                        layer.neurons,
-                        activation=layer.activation
-                    )
-                )
-            elif layer.layer_type == 'dropout':
-                m_model.add(
-                    Dropout(rate=layer.rate)
-                )
-
-        # Define Output Layer
-        # m_model.add(Dense(2, activation='sigmoid'))
-        m_model.add(Dense(10, activation='softmax'))
-
-        # Compile Neural Network
-        m_model.compile(optimizer=chromosome.optimizer,
-                        loss='categorical_crossentropy',
-                        metrics=['accuracy'],
-                       )
-
+        
         # Fit Model with Data
-        m_model.fit(
+        history = chromosome.ml_model.fit(
             x_train,
             y_train,
             epochs=10,
             steps_per_epoch=10,
     #         epochs=chromosome.number_of_epochs,
     #         steps_per_epoch=chromosome.steps_per_epoch,
-            verbose=0,
+            verbose=1,
             validation_data=(x_val, y_val)
         )
-
-        # Update Model into Chromosome
-        chromosome.ml_model = m_model
+        
+        return history
 
     def create_random_layer(self):
         """
@@ -213,8 +244,12 @@ class GADriver(object):
         chromosome = Chromosome(
             layer_layout=c_layer_layout,
             optimizer=c_optimizer,
-            specie=""
+            specie="",
+            id=random_id(),
+            parent_a=mother.id,
+            parent_b=father.id,
         )
+        
 
         return chromosome
 
@@ -262,6 +297,7 @@ class GADriver(object):
         :return: A new population
         """
 
+        print("Evolution ... ")
         # Clear Graphs from Keras e TensorFlow
         K.clear_session()
         tf.compat.v1.reset_default_graph()
@@ -280,9 +316,9 @@ class GADriver(object):
         while len(new_population) < self.population_size:
             parent_a = random.randint(0, len(parents) - 1)
             parent_b = random.randint(0, len(parents) - 1)
-            while parent_a == parent_b:
+            while parents[parent_a].id == parents[parent_b].id:
                 parent_b = random.randint(0, len(parents) - 1)
-
+            
             new_population.append(
                 self.mutate_chromosome(
                     self.generate_children(
@@ -362,6 +398,6 @@ def evaluate_model(ml_model, x, y, model_name="Reference Model"):
     :return: Performance metrics (loss, accuracy).
     """
     # TODO: Implement me
-    loss, accuracy = ml_model.evaluate(x, y)
+    loss, accuracy = ml_model.evaluate(x, y, verbose=1)
 
     return loss, accuracy
