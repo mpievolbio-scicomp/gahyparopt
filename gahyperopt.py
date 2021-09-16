@@ -98,9 +98,17 @@ class Chromosome:
     @accuracy.setter
     def accuracy(self, val):
         self.__accuracy = val
- 
+    
     def __str__(self):
         return str(self.__dict__)
+    
+    def __eq__(self, other):
+        return isinstance(other, Chromosome) and \
+               self.id == other.id and \
+               self.parent_a == other.parent_a and \
+               self.parent_b == other.parent_b
+          
+               
 
     def safe_get_hidden_layer_node(self, index=0):
         """
@@ -305,9 +313,21 @@ class GADriver(object):
         # Select N Best Candidates + Y Random Candidates. Kill the Rest of Chromosomes
         parents = []
         parents.extend(population[0:self.best_candidates_count])  # N Best Candidates
+        
+        print("*** Old generation ***")
+        for p in population:
+            print(p.id, p.parent_a, p.parent_b)
+        print("*** Parents taken over ***")
+        for p in parents:
+            print(p.id, p.parent_a, p.parent_b)
+            
         for rn in range(self.random_candidates_count):
-            parents.append(population[random.randint(0, self.population_size - 1)])  # Y Random Candidate
-
+            parents.append(population[random.randint(self.best_candidates_count, self.population_size - 1)])  # Y Random Candidate
+        
+        print("*** Random parents ***")
+        for p in parents[self.best_candidates_count:]:
+            print(p.id, p.parent_a, p.parent_b)
+        
         # Create New Population Through Crossover
         new_population = []
         new_population.extend(parents)
@@ -327,7 +347,31 @@ class GADriver(object):
                     )
                 )
             )
-
+        
+        print("*** New generation ***")
+        for p in new_population:
+            print(p.id, p.parent_a, p.parent_b)
+        
+        # Remove parents if already in previous generation
+#         for i,p in enumerate(new_population):
+#             if p.parent_a is None and p.parent_b is None:
+#                 continue
+#             for pp in parents:
+#                 if p == pp:
+                    
+#                     print("WARNING:")
+#                     print("Removing parents from {}".format(p.id))
+#                     print("p:", p.id, p.parent_a, p.parent_b)
+#                     print("pp:", pp.id, pp.parent_a, pp.parent_b)
+#                     p.parent_a = None
+#                     p.parent_b = None
+                    
+#                     new_population[i] = p
+                    
+        
+#         print("*** New generation after parent cleanup***")
+#         for p in new_population:
+#             print(p.id, p.parent_a, p.parent_b)
         return new_population
 
 def load_mnist():
