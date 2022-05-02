@@ -4,10 +4,10 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 import time
-from keras.datasets import mnist
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, InputLayer
-from keras import backend as K
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, InputLayer
+from tensorflow.keras import backend as K
 from tensorflow.keras.utils import to_categorical
 import random
 import string

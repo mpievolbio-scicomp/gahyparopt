@@ -14,7 +14,6 @@ setup(
         'ipywidgets',
         'numpy',
         'tensorflow>=2.2',
-        'keras',
         'matplotlib'
     ],
     classifiers=[
