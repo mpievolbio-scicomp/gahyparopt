@@ -8,7 +8,6 @@ import tensorflow as tf
 import pandas
 from matplotlib import pyplot
 from ipywidgets.widgets.interaction import show_inline_matplotlib_plots
-from keras import backend as K
 
 import sys
 

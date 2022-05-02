@@ -180,7 +180,6 @@ def create_start_individuum(ga):
 
 def clear_keras_session():
     K.clear_session()
-    tf.compat.v1.reset_default_graph()
 
 def train_individuum(ga,data,individuum):
     # Reset tensorflow and keras.
