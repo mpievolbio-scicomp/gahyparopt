@@ -183,7 +183,7 @@ def clear_keras_session():
 
 def train_individuum(ga,data,individuum):
     # Reset tensorflow and keras.
-    clear_keras_session()
+    # clear_keras_session()
     return ga.generate_model_from_chromosome(data, individuum)
 
 def plot_history(history):

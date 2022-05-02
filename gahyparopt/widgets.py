@@ -73,7 +73,6 @@ def new_game_clicked(b):
     spiel.name = None
     spiel.history = None
     
-    clear_keras_session()
     
     load_data_button.disabled=False
     spieler_name_text.disabled=False
@@ -134,7 +133,6 @@ def load_button_clicked(b):
     log_message(b, "Lade neue Generation.", clear=True)
     msg = io.StringIO()
     with redirect_stdout(msg):
-        clear_keras_session()
         sync_remote_to_local(spiel.name)
         spiel.individuum = read_chromosome(spiel.name)
         spiel.individuum.ml_model.summary()
