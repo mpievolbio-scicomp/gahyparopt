@@ -15,7 +15,7 @@ import glob
 
 SHAREURL='https://owncloud.gwdg.de/index.php/s/yKLtY9e230MeuRY'
 
-from .gahyperopt import GADriver, Chromosome, LayerLayout, evaluate_model, load_mnistw
+from .gahyperopt import GADriver, Chromosome, LayerLayout, evaluate_model, load_mnist
 
 def read_chromosome(name):
     with open("{}.json".format(name), 'r') as jso:
