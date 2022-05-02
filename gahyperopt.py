@@ -8,7 +8,7 @@ from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, InputLayer
 from keras import backend as K
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 import random
 import string
 
