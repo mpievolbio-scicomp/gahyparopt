@@ -14,7 +14,8 @@ setup(
         'ipywidgets',
         'numpy',
         'tensorflow>=2.2',
-        'matplotlib'
+        'matplotlib',
+        'pyocclient'
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
