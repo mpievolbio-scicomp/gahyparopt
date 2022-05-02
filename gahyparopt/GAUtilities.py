@@ -7,9 +7,8 @@ import tensorflow as tf
 import pandas
 from matplotlib import pyplot
 from ipywidgets.widgets.interaction import show_inline_matplotlib_plots
-from keras import backend as K
 import sys
-from keras.models import Sequential
+from tensorflow.keras.models import Sequential
 import owncloud
 import glob
 
@@ -178,12 +177,7 @@ def load_data():
 def create_start_individuum(ga):
     return ga.generate_first_population_randomly()
 
-def clear_keras_session():
-    K.clear_session()
-
 def train_individuum(ga,data,individuum):
-    # Reset tensorflow and keras.
-    # clear_keras_session()
     return ga.generate_model_from_chromosome(data, individuum)
 
 def plot_history(history):
