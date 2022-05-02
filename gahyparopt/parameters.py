@@ -1,6 +1,6 @@
 # Define Hyperparameters for NN
-HIDDEN_LAYER_COUNT = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-HIDDEN_LAYER_NEURONS = [8, 16, 24, 32, 64, 128, 256, 512]
+HIDDEN_LAYER_COUNT = [1, 2, 3, 4, 5, 6]
+HIDDEN_LAYER_NEURONS = [8, 16, 24, 32, 64, 128]
 HIDDEN_LAYER_RATE = [0.1, 0.2, 0.3, 0.4]
 HIDDEN_LAYER_ACTIVATIONS = ['relu', 'tanh', 'sigmoid']
 HIDDEN_LAYER_TYPE = ['dense', 'dropout']

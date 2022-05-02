@@ -135,7 +135,7 @@ def load_button_clicked(b):
     msg = io.StringIO()
     with redirect_stdout(msg):
         clear_keras_session()
-        sync_remote_to_local()
+        sync_remote_to_local(spiel.name)
         spiel.individuum = read_chromosome(spiel.name)
         spiel.individuum.ml_model.summary()
     log_message(b, msg.getvalue())
