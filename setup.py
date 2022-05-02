@@ -13,7 +13,7 @@ setup(
         'pandas',
         'ipywidgets',
         'numpy',
-        'tensorflow==2.2',
+        'tensorflow>=2.2',
         'keras',
         'matplotlib'
     ],
