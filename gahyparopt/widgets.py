@@ -12,11 +12,11 @@ from keras import backend as K
 
 import sys
 
-from gahyparopt.gahyperopt import GADriver, Chromosome, LayerLayout, evaluate_model, load_mnist
+from .gahyperopt import GADriver, Chromosome, LayerLayout, evaluate_model, load_mnist
 
-from gahyparopt.GAUtilities import *
+from .GAUtilities import *
 
-from gahyparopt.parameters import *
+from .parameters import *
 
 
 POPULATION_SIZE=1
