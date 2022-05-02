@@ -423,7 +423,7 @@ def generate_reference_ml(data):
         epochs=20,
         batch_size=128,
         steps_per_epoch=300,
-        verbose=0,
+        verbose=1,
         validation_data=(x_val, y_val),
     )
 
