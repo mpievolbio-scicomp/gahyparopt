@@ -8,7 +8,7 @@ MODEL_OPTIMIZER = ['rmsprop', 'sgd', 'adam']
 
 # Define Genetic Algorithm Parameters
 MAX_GENERATIONS = 100  # Max Number of Generations to Apply the Genetic Algorithm
-BEST_CANDIDATES_COUNT = 2  # Number of Best Candidates to Use
-RANDOM_CANDIDATES_COUNT = 1  # Number of Random Candidates (From Entire Population of Generation) to Next Population
+BEST_CANDIDATES_COUNT = 10 # Number of Best Candidates to Use
+RANDOM_CANDIDATES_COUNT = 5  # Number of Random Candidates (From Entire Population of Generation) to Next Population
 OPTIMIZER_MUTATION_PROBABILITY = 0.1  # 10% of Probability to Apply Mutation on Optimizer Parameter
-HIDDEN_LAYER_MUTATION_PROBABILITY = 0.1  # 10% of Probability to Apply Mutation o
+HIDDEN_LAYER_MUTATION_PROBABILITY = 0.1  # 10% of Probability to Apply Mutation on number of hidden layers.
