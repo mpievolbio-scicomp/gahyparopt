@@ -1,16 +1,18 @@
-import os, shutil, shlex
-import json, io
-from subprocess import Popen, PIPE, STDOUT
 from contextlib import redirect_stdout, redirect_stderr
 from datetime import datetime
-import tensorflow as tf
-import pandas
-from matplotlib import pyplot
 from ipywidgets.widgets.interaction import show_inline_matplotlib_plots
-import sys
+from matplotlib import pyplot
+from subprocess import Popen, PIPE, STDOUT
+from tensorflow.keras import backend as K
 from tensorflow.keras.models import Sequential
-import owncloud
+
 import glob
+import json, io
+import os, shutil, shlex
+import owncloud
+import pandas
+import sys
+import tensorflow as tf
 
 SHAREURL='https://owncloud.gwdg.de/index.php/s/yKLtY9e230MeuRY'
 
@@ -177,6 +179,7 @@ def create_start_individuum(ga):
     return ga.generate_first_population_randomly()
 
 def train_individuum(ga,data,individuum):
+    clear_keras_session()
     return ga.generate_model_from_chromosome(data, individuum)
 
 def plot_history(history):
@@ -190,3 +193,8 @@ def plot_history(history):
     hist_df.plot(y='accuracy',ax=axs[1], label="Training")
     hist_df.plot(y='val_accuracy',ax=axs[1], label="Validation")
     axs[1].set_title("Accuracy")
+    
+def clear_keras_session():
+    # Clear session and reset default graph.
+    K.clear_session()
+    tf.compat.v1.reset_default_graph()
