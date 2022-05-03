@@ -73,7 +73,6 @@ def layer_layout_from_dicts(layer_dicts):
     return layer_layouts
 
 def chromosome_from_dict(chromosome_dict):
-    breakpoint()
     layer_layout = layer_layout_from_dicts(chromosome_dict['layer_layout'])
     chromosome = Chromosome(
         layer_layout=layer_layout,
