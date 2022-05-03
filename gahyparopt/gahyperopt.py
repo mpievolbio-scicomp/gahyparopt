@@ -330,9 +330,17 @@ class GADriver(object):
         
         # Create New Population Through Crossover
         new_population = []
-        new_population.extend(parents)
 
         # Fill Population with new Random Children with Mutation
+        # Set parents on those new individuals that were copied over.
+        for parent in parents:
+            new_population.append(
+                self.generate_children(
+                    mother=parent,
+                    father=parent
+                )
+            )
+            
         while len(new_population) < self.population_size:
             parent_a = random.randint(0, len(parents) - 1)
             parent_b = random.randint(0, len(parents) - 1)
