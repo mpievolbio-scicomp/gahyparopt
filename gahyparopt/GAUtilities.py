@@ -4,7 +4,9 @@ from ipywidgets.widgets.interaction import show_inline_matplotlib_plots
 from matplotlib import pyplot
 from subprocess import Popen, PIPE, STDOUT
 from tensorflow.keras import backend as K
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import models
+from keras.engine import sequential
+from tensorflow.keras.utils import plot_model
 
 import glob
 import json, io
@@ -41,6 +43,8 @@ class GAJSONEncoder(json.JSONEncoder):
                     "loss": obj.loss,
                     "accuracy": obj.accuracy,
                     "specie": obj.specie,
+                    "number_of_epochs": obj.number_of_epochs,
+                    "steps_per_epoch": obj.steps_per_epoch,
                     "ml_model": get_model_str(obj.ml_model),
                     "id": obj.id,
                     "parent_a": obj.parent_a,
@@ -53,9 +57,9 @@ class GAJSONEncoder(json.JSONEncoder):
                 "rate": obj.rate,
                 "layer_type": obj.layer_type,
             }
-        if isinstance(obj, Sequential):
+        if isinstance(obj, models.Sequential):
             pass
-        if isinstance(obj, tf.python.keras.engine.sequential.Sequential):
+        if isinstance(obj, sequential.Sequential):
             pass
         try:
             return json.JSONEncoder.default(self, obj)
@@ -69,9 +73,9 @@ def layer_layout_from_dicts(layer_dicts):
         layout.neurons = dct['neurons']
         layout.activation = dct['activation']
         layout.rate = dct['rate']
-        
+
         layer_layouts.append(layout)
-    
+
     return layer_layouts
 
 def chromosome_from_dict(chromosome_dict):
@@ -80,6 +84,8 @@ def chromosome_from_dict(chromosome_dict):
         layer_layout=layer_layout,
         optimizer=chromosome_dict['optimizer'],
         specie=chromosome_dict['specie'],
+        number_of_epochs=chromosome_dict['number_of_epochs'],
+        steps_per_epoch=chromosome_dict['steps_per_epoch'],
         id=chromosome_dict['id'],
         parent_a=chromosome_dict['parent_a'],
         parent_b=chromosome_dict['parent_b'],

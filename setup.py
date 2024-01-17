@@ -16,6 +16,8 @@ setup(
         'tensorflow>=2.2',
         'matplotlib',
         'pyocclient'
+        'pydot',
+        'graphviz'
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
