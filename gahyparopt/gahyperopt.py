@@ -1,7 +1,6 @@
 from contextlib import redirect_stdout, redirect_stderr
 from datetime import datetime
 from ipywidgets.widgets.interaction import show_inline_matplotlib_plots
-from keras.engine import sequential
 from matplotlib import pyplot
 from subprocess import Popen, PIPE, STDOUT
 from tensorflow.keras import backend as K
@@ -228,7 +227,7 @@ class GADriver(object):
         :return:
         """
 
-        return development(data, chromosome)
+        return development(chromosome, data)
 
     def create_random_layer(self):
         """
@@ -557,10 +556,6 @@ def development(chromosome, data=None):
     chromosome.accuracy = acc
     chromosome.loss = loss
 
-    # Write to file if chromosome was read from file.
-    if chromosome_file is not None:
-        write_chromosome(chromosome_file.split(".json")[0], chromosome)
-
     return history
 
 def read_chromosome(name):
@@ -601,8 +596,6 @@ class GAJSONEncoder(json.JSONEncoder):
                 "layer_type": obj.layer_type,
             }
         if isinstance(obj, models.Sequential):
-            pass
-        if isinstance(obj, sequential.Sequential):
             pass
         try:
             return json.JSONEncoder.default(self, obj)

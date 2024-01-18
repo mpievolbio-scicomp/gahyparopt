@@ -5,7 +5,6 @@ from matplotlib import pyplot
 from subprocess import Popen, PIPE, STDOUT
 from tensorflow.keras import backend as K
 from tensorflow.keras import models
-from keras.engine import sequential
 from tensorflow.keras.utils import plot_model
 
 import glob
@@ -58,8 +57,6 @@ class GAJSONEncoder(json.JSONEncoder):
                 "layer_type": obj.layer_type,
             }
         if isinstance(obj, models.Sequential):
-            pass
-        if isinstance(obj, sequential.Sequential):
             pass
         try:
             return json.JSONEncoder.default(self, obj)
