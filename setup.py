@@ -15,7 +15,7 @@ setup(
         'numpy',
         'tensorflow>=2.2',
         'matplotlib',
-        'pyocclient'
+        'pyocclient',
         'pydot',
         'graphviz'
     ],
