@@ -17,6 +17,7 @@ setup(
         'matplotlib',
         'pyocclient',
         'pydot',
+        'pydotplus',
         'graphviz'
     ],
     classifiers=[
