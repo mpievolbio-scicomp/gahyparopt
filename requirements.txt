@@ -1,6 +1,6 @@
 pandas
 ipywidgets
 numpy
-tensorflow>=2.2
+tensorflow>=2.2<=2.12
 keras
 matplotlib
